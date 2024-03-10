@@ -39,6 +39,6 @@ jobs:
           exit 1
       - name: Crear Release
         if: steps.test_result.outcome == 'success'
-        un: |
+        run: |
           echo "podemos crear el relese"
           exit 1
