@@ -1,0 +1,48 @@
+name: Merge a develop con validación de pruebas
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  merge-a-develop:
+    name: Merge a develop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v2
+
+      - name: Configuración de entorno de python
+        uses: actions/setup-python@v2
+        with:
+            python-version: '3.7'
+
+      - name: Instalación de librerías y dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Ejecutar pruebas
+      - name: Ejecutar pruebas
+        run: |
+          python -m unittest tests/test_recetario.py
+        continue-on-error: true
+        id: test_result
+
+      - name: Verificar resultado de las pruebas
+        if: ${{ failure() }}
+        run: |
+          echo "Las pruebas fallaron. No se realizará el merge."
+          exit 1
+
+      # Fusionar cambios a la rama develop si las pruebas fueron exitosas
+      - name: Fusionar cambios a develop
+        if: steps.test_result.outcome == 'success'
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: ${{ github.event.pull_request.head.ref }}
+          target-branch: develop
+          commit-message: "Merge pull request #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.ref }}"
