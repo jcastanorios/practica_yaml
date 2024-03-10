@@ -2,7 +2,9 @@ name: Creación del release una vez se ejecutan las pruebas unitarias
 
 on:
   push:
-    branches: [ develop ]
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   if_merged:
