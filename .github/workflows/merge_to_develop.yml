@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "Las pruebas fallaron. No se realizará el merge."
           exit 1
+          
 
       # Fusionar cambios a la rama develop si las pruebas fueron exitosas
       - name: Fusionar cambios a develop
