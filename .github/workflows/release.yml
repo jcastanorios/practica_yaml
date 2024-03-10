@@ -5,8 +5,10 @@ on:
     branches: [ develop ]
 
 jobs:
-  release-master:
+
+  if_merged:
     name: Generación del release
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -35,4 +37,9 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo "Las pruebas unitarias fallaron, no se crea la rama release"
+          exit 1
+      - name: Crear Release
+        if: steps.test_result.outcome == 'success'
+        un: |
+          echo "podemos crear el relese"
           exit 1
