@@ -40,7 +40,7 @@ jobs:
       # Fusionar cambios a la rama develop si las pruebas fueron exitosas
       - name: Fusionar cambios a develop
         if: steps.test_result.outcome == 'success'
-        uses: tukasz/direct-merge-action@main
+        uses: tukasz/direct-merge-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           source-branch: ${{ github.event.pull_request.head.ref }}
