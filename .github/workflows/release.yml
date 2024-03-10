@@ -38,8 +38,6 @@ jobs:
           echo "Las pruebas unitarias fallaron, no se crea la rama release"
       - name: Crear Release
         if: steps.test_result.outcome == 'success'
-        name: Create Release
-        runs-on: ubuntu-latest
         steps:
           - name: Checkout code
             uses: actions/checkout@v2
