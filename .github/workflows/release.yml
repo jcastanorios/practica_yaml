@@ -6,7 +6,7 @@ on:
 
 jobs:
   release-master:
-    name: Merge a develop
+    name: Generación del release
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
         with:
             python-version: '3.7'
 
-            
+
       - name: Instalación de librerías y dependencias
         run: |
           python -m pip install --upgrade pip
