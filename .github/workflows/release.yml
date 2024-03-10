@@ -1,7 +1,7 @@
 name: Creación del release una vez se ejecutan las pruebas unitarias
 
 on:
-  merge:
+  push:
     branches: [ develop ]
 
 jobs:
