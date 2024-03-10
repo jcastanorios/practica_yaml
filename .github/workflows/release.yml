@@ -36,9 +36,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo "Las pruebas unitarias fallaron, no se crea la rama release"
-          exit 1
       - name: Crear Release
         if: steps.test_result.outcome == 'success'
         run: |
           echo "podemos crear el relese"
-          exit 1
