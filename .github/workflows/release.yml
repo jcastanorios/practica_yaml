@@ -1,0 +1,37 @@
+name: Creación del release una vez se ejecutan las pruebas unitarias
+
+on:
+  merge:
+    branches: [ develop ]
+
+jobs:
+  release-master:
+    name: Merge a develop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v2
+
+      - name: Configuración de entorno de python
+        uses: actions/setup-python@v2
+        with:
+            python-version: '3.7'
+
+      - name: Instalación de librerías y dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Ejecutar pruebas
+      - name: Ejecutar pruebas
+        run: |
+          python -m unittest tests/test_album.py
+        continue-on-error: true
+        id: test_result
+
+      - name: Verificar resultado de las pruebas
+        if: ${{ failure() }}
+        run: |
+          echo "Las pruebas unitarias fallaron, no se crea la rama release"
+          exit 1
